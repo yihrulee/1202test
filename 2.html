@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物的運輸 - 莖內維管束的排列</title>
+    <style>
+        /* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f9f4; /* 淺綠底色 */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px; /* 底部留白給導覽列 */
+        }
+
+        /* --- 標題樣式 --- */
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 40px;
+            font-size: 2.2rem;
+            border-bottom: 3px solid #a5d6a7;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .header-wrapper {
+            text-align: center;
+        }
+
+        h2 {
+            color: #388e3c;
+            border-left: 5px solid #388e3c;
+            padding-left: 15px;
+            margin-top: 0;
+        }
+
+        /* --- 內容區塊 (圖文並排) --- */
+        .content-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+
+        .text-col {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .img-col {
+            flex: 0 0 35%; /* 圖片佔約 35% 寬度 */
+            text-align: center;
+        }
+
+        .img-col img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 手機版：圖文垂直排列 */
+        @media (max-width: 768px) {
+            .content-row {
+                flex-direction: column;
+            }
+            .img-col {
+                width: 100%;
+            }
+        }
+
+        /* --- 關鍵字樣式 --- */
+        .keyword-blue {
+            color: #1565c0;
+            font-weight: bold;
+            background-color: #e3f2fd;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .keyword-red {
+            color: #c62828;
+            font-weight: bold;
+            background-color: #ffebee;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* --- 互動練習區 --- */
+        .quiz-section {
+            margin-top: 50px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2e7d32;
+        }
+
+        .quiz-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-question {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            background-color: #fafafa;
+        }
+        
+        .options label:hover {
+            background-color: #f0f0f0;
+            border-color: #ddd;
+        }
+
+        /* 選單樣式 */
+        select {
+            padding: 5px 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: white;
+            margin: 0 5px;
+        }
+
+        /* --- 狀態樣式 (正確/錯誤) --- */
+        .quiz-card.correct {
+            border-color: #4caf50;
+            background-color: #e8f5e9;
+        }
+
+        .quiz-card.incorrect {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            display: none; /* 預設隱藏 */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .quiz-card.correct .feedback {
+            display: block;
+            color: #2e7d32;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-card.incorrect .feedback {
+            display: block;
+            color: #c62828;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        /* --- 按鈕樣式 --- */
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .btn-check {
+            background-color: #2196f3;
+            color: white;
+        }
+        .btn-check:hover { background-color: #1976d2; }
+        .btn-check:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-retry {
+            background-color: #ff9800;
+            color: white;
+            display: none; /* 預設隱藏 */
+        }
+        .btn-retry:hover { background-color: #f57c00; }
+
+        /* --- 底部導覽列 --- */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .prev-btn {
+            background-color: #757575;
+        }
+        .prev-btn:hover { background-color: #616161; }
+
+        .next-btn {
+            background-color: #4caf50;
+        }
+        .next-btn:hover { background-color: #388e3c; }
+
+        /* 禁用狀態的下一頁按鈕 */
+        .next-btn.disabled {
+            background-color: #e0e0e0;
+            color: #9e9e9e;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-wrapper">
+        <h1>學習頁面：莖內維管束的排列</h1>
+    </div>
+
+    <div class="content-row">
+        <div class="text-col">
+            <h2>環狀排列的維管束</h2>
+            <p>不同的植物，莖內維管束的排列方式也不同。</p>
+            <p>例如向日葵與榕樹等植物，其莖內維管束呈<span class="keyword-blue">環狀排列</span>，且韌皮部與木質部之間還有<span class="keyword-red">形成層</span>。</p>
+        </div>
+        <div class="img-col">
+            <img src="2_1.png" alt="維管束環狀排列示意圖">
+        </div>
+    </div>
+
+    <div class="content-row">
+        <div class="text-col">
+            <h2>形成層的功能與散生排列</h2>
+            <p><span class="keyword-red">形成層</span>可以進行細胞分裂，向外增生新的<span class="keyword-blue">韌皮部</span>細胞，向內增生新的<span class="keyword-blue">木質部</span>細胞，使莖不斷<span class="keyword-red">加粗</span>生長。</p>
+            <p>玉米與水稻等植物，其莖內維管束呈<span class="keyword-blue">散生排列</span>，通常不具形成層。</p>
+        </div>
+        <div class="img-col">
+            <img src="2_2.png" alt="維管束散生排列示意圖">
+        </div>
+    </div>
+
+    <div class="quiz-section">
+        <h3 class="section-title">✦ 觀念釐清與挑戰</h3>
+
+        <div class="quiz-card" id="q1">
+            <div class="quiz-question">1. 下列哪一種植物的莖內維管束呈現「散生排列」，且通常不具形成層？</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="A"> A. 榕樹</label>
+                <label><input type="radio" name="q1" value="B"> B. 向日葵</label>
+                <label><input type="radio" name="q1" value="C"> C. 玉米</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ1()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q1')">重做本題</button>
+            <div class="feedback" id="fb-q1"></div>
+        </div>
+
+        <div class="quiz-card" id="q2">
+            <div class="quiz-question">2. 請完成關於「形成層」細胞分裂方向的敘述：</div>
+            <div style="font-size: 1.1rem; padding: 10px 0;">
+                形成層向外增生
+                <select id="q2-select1" onchange="enableCheck('q2')">
+                    <option value="" disabled selected>---</option>
+                    <option value="phloem">韌皮部</option>
+                    <option value="xylem">木質部</option>
+                </select>
+                ，向內增生
+                <select id="q2-select2" onchange="enableCheck('q2')">
+                    <option value="" disabled selected>---</option>
+                    <option value="phloem">韌皮部</option>
+                    <option value="xylem">木質部</option>
+                </select>
+                。
+            </div>
+            <button class="btn btn-check" onclick="checkQ2()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q2')">重做本題</button>
+            <div class="feedback" id="fb-q2"></div>
+        </div>
+
+        <div class="quiz-card" id="q3">
+            <div class="quiz-question">3. 所有植物的莖都可以透過形成層不斷加粗生長。</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="T"> 正確</label>
+                <label><input type="radio" name="q3" value="F"> 錯誤</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ3()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q3')">重做本題</button>
+            <div class="feedback" id="fb-q3"></div>
+        </div>
+
+        <div class="quiz-card" id="q4">
+            <div class="quiz-question">4. 如果你在顯微鏡下觀察到某植物莖的橫切面，維管束整齊地排列成一個圓圈（環狀），你推測這最有可能是下列哪種植物？</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="A"> A. 玫瑰 (雙子葉植物，類似向日葵)</label>
+                <label><input type="radio" name="q4" value="B"> B. 水稻 (單子葉植物)</label>
+                <label><input type="radio" name="q4" value="C"> C. 竹子 (單子葉植物，類似玉米)</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ4()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q4')">重做本題</button>
+            <div class="feedback" id="fb-q4"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-nav">
+    <a href="1.html" class="nav-btn prev-btn">← 上一頁</a>
+    <a href="3.html" class="nav-btn next-btn disabled" id="nextLink">下一頁 →</a>
+</div>
+
+<script>
+    // 狀態追蹤：紀錄 4 題是否都正確完成
+    const progress = {
+        q1: false,
+        q2: false,
+        q3: false,
+        q4: false
+    };
+
+    // 監聽所有 Radio 輸入，若有選擇則啟用檢查按鈕
+    document.querySelectorAll('input[type=radio]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const qId = e.target.name; 
+            const container = document.getElementById(qId);
+            const checkBtn = container.querySelector('.btn-check');
+            checkBtn.disabled = false;
+        });
+    });
+
+    // 啟用檢查按鈕 (給下拉選單使用)
+    function enableCheck(qId) {
+        const container = document.getElementById(qId);
+        // 檢查該題內所有 select 是否都已選擇
+        const selects = container.querySelectorAll('select');
+        let allSelected = true;
+        selects.forEach(sel => {
+            if(!sel.value) allSelected = false;
+        });
+
+        if(allSelected) {
+            container.querySelector('.btn-check').disabled = false;
+        }
+    }
+
+    // --- 通用結果處理函式 ---
+    function handleResult(qId, isCorrect, correctMsg, errorMsg) {
+        const card = document.getElementById(qId);
+        const feedback = document.getElementById(`fb-${qId}`);
+        const checkBtn = card.querySelector('.btn-check');
+        const retryBtn = card.querySelector('.btn-retry');
+        const inputs = card.querySelectorAll('input, select');
+
+        if (isCorrect) {
+            // 正確
+            card.classList.add('correct');
+            card.classList.remove('incorrect');
+            feedback.innerHTML = `✅ 正確！${correctMsg}`;
+            checkBtn.style.display = 'none'; // 隱藏檢查按鈕
+            retryBtn.style.display = 'none'; // 不需要重試
+            
+            // 鎖定輸入
+            inputs.forEach(input => input.disabled = true);
+            
+            // 更新進度
+            progress[qId] = true;
+            checkAllComplete();
+        } else {
+            // 錯誤
+            card.classList.add('incorrect');
+            card.classList.remove('correct');
+            feedback.innerHTML = `❌ 錯誤。${errorMsg}`;
+            checkBtn.style.display = 'none';
+            retryBtn.style.display = 'inline-block'; // 顯示重試按鈕
+            
+            // 鎖定輸入
+            inputs.forEach(input => input.disabled = true);
+            
+            progress[qId] = false;
+        }
+    }
+
+    // 重置題目
+    function retry(qId) {
+        const card = document.getElementById(qId);
+        const feedback = document.getElementById(`fb-${qId}`);
+        const checkBtn = card.querySelector('.btn-check');
+        const retryBtn = card.querySelector('.btn-retry');
+        const inputs = card.querySelectorAll('input, select');
+
+        // UI 復原
+        card.classList.remove('correct', 'incorrect');
+        feedback.style.display = 'none';
+        feedback.innerHTML = '';
+        checkBtn.style.display = 'inline-block';
+        checkBtn.disabled = true; // 需重新選擇
+        retryBtn.style.display = 'none';
+
+        // 解鎖輸入並清空選擇
+        inputs.forEach(input => {
+            input.disabled = false;
+            if(input.type === 'radio') input.checked = false;
+            if(input.tagName === 'SELECT') input.selectedIndex = 0;
+        });
+    }
+
+    // --- 各題邏輯 ---
+
+    function checkQ1() {
+        const selected = document.querySelector('input[name="q1"]:checked');
+        if(!selected) return;
+        // 玉米是散生排列，無形成層
+        const isCorrect = (selected.value === 'C');
+        handleResult('q1', isCorrect, '玉米是單子葉植物，維管束散生且無形成層。', '提示：榕樹和向日葵有年輪(環狀)，誰沒有呢？');
+    }
+
+    function checkQ2() {
+        const s1 = document.getElementById('q2-select1').value; // 外
+        const s2 = document.getElementById('q2-select2').value; // 內
+        
+        // 外韌內木
+        const isCorrect = (s1 === 'phloem' && s2 === 'xylem');
+        
+        handleResult('q2', isCorrect, '形成層「外韌內木」，可以讓莖加粗。', '提示：請記住「外韌內木」的口訣，韌皮部在外側。');
+    }
+
+    function checkQ3() {
+        const selected = document.querySelector('input[name="q3"]:checked');
+        if(!selected) return;
+        // 題目：所有植物... 錯誤，因為玉米水稻就沒有形成層
+        const isCorrect = (selected.value === 'F');
+        handleResult('q3', isCorrect, '許多草本植物(如玉米、水稻)不具形成層，莖無法無限加粗。', '提示：想想看，稻子的莖會像大樹一樣越來越粗嗎？');
+    }
+
+    function checkQ4() {
+        const selected = document.querySelector('input[name="q4"]:checked');
+        if(!selected) return;
+        // 環狀排列 = 雙子葉 (玫瑰/向日葵)
+        const isCorrect = (selected.value === 'A');
+        handleResult('q4', isCorrect, '環狀排列通常是雙子葉植物(如玫瑰、榕樹、向日葵)的特徵。', '提示：水稻和竹子跟玉米比較像，維管束是散生的。');
+    }
+
+    // --- 檢查全域進度 ---
+    function checkAllComplete() {
+        const allDone = Object.values(progress).every(status => status === true);
+        
+        if (allDone) {
+            const nextLink = document.getElementById('nextLink');
+            nextLink.classList.remove('disabled');
+            nextLink.innerHTML = "下一頁 → (解鎖)";
+            nextLink.style.backgroundColor = "#2e7d32";
+            nextLink.style.boxShadow = "0 0 15px rgba(46, 125, 50, 0.6)";
+        }
+    }
+</script>
+
+</body>
+</html>

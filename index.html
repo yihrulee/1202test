@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物的運輸探索之旅</title>
+    <style>
+        /* CSS 設定 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 防止出現卷軸 */
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); /* 淡綠色漸層背景 */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 全螢幕高度 */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #2e7d32; /*以此深綠色為主色調 */
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #558b2f;
+            margin-bottom: 60px;
+            font-weight: normal;
+        }
+
+        .img-btn-container {
+            position: relative;
+        }
+
+        /* 圖片按鈕樣式 */
+        #startBtn {
+            width: 200px; /* 可依需求自行調整大小 */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.2s ease;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+
+        /* 滑鼠懸停與獲得焦點時的效果 */
+        #startBtn:hover, #startBtn:focus {
+            transform: scale(1.1);
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+            outline: none;
+        }
+
+        /* 點擊時的微小縮放效果 */
+        #startBtn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>植物的運輸探索之旅</h1>
+        <p class="subtitle">深入維管束，揭開水分與養分的流動奧秘</p>
+        
+        <div class="img-btn-container">
+            <img src="0.png" id="startBtn" alt="開始按鈕" tabindex="0">
+        </div>
+    </div>
+
+    <script>
+        // JavaScript 邏輯控制
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('startBtn');
+
+            // 定義跳轉函式
+            const goNext = () => {
+                window.location.href = '1.html';
+            };
+
+            // 1. 綁定滑鼠點擊事件
+            btn.addEventListener('click', goNext);
+
+            // 2. 綁定全域鍵盤事件 (Enter 或 Space)
+            document.addEventListener('keydown', (event) => {
+                // 檢查按鍵代碼: Enter (13) 或 Space (32)
+                if (event.key === 'Enter' || event.key === ' ' || event.code === 'Space') {
+                    // 防止空白鍵造成頁面滾動
+                    event.preventDefault(); 
+                    goNext();
+                }
+            });
+
+            // 頁面載入後自動聚焦在圖片上，方便直接鍵盤操作（可選）
+            btn.focus();
+        });
+    </script>
+</body>
+</html>

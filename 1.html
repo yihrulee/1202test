@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物的運輸 - 維管束的功能與分布</title>
+    <style>
+        /* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f9f4; /* 淺綠底色 */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px; /* 底部留白給導覽列 */
+        }
+
+        /* --- 標題樣式 --- */
+        h1 {
+            text-align: center;
+            color: #2e7d32;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            color: #388e3c;
+            border-left: 5px solid #388e3c;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+
+        /* --- 文本與關鍵字 --- */
+        .content-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .keyword-blue {
+            color: #1565c0;
+            font-weight: bold;
+            background-color: #e3f2fd;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .keyword-red {
+            color: #c62828;
+            font-weight: bold;
+            background-color: #ffebee;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* --- 圖片區域 --- */
+        .image-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .image-container img {
+            max-width: 45%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* --- 互動練習區 --- */
+        .quiz-section {
+            margin-top: 50px;
+        }
+
+        .quiz-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-question {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .options label:hover {
+            background-color: #f5f5f5;
+        }
+
+        select {
+            padding: 5px 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* --- 狀態樣式 (正確/錯誤) --- */
+        .quiz-card.correct {
+            border-color: #4caf50;
+            background-color: #e8f5e9;
+        }
+
+        .quiz-card.incorrect {
+            border-color: #f44336;
+            background-color: #ffebee;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            display: none; /* 預設隱藏 */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .quiz-card.correct .feedback {
+            display: block;
+            color: #2e7d32;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-card.incorrect .feedback {
+            display: block;
+            color: #c62828;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        /* --- 按鈕樣式 --- */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-check {
+            background-color: #2196f3;
+            color: white;
+        }
+        .btn-check:hover { background-color: #1976d2; }
+        .btn-check:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+
+        .btn-retry {
+            background-color: #ff9800;
+            color: white;
+            display: none; /* 預設隱藏 */
+        }
+        .btn-retry:hover { background-color: #f57c00; }
+
+        /* --- 底部導覽列 --- */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .prev-btn {
+            background-color: #757575;
+        }
+        .prev-btn:hover { background-color: #616161; }
+
+        .next-btn {
+            background-color: #4caf50;
+        }
+        .next-btn:hover { background-color: #388e3c; }
+
+        /* 禁用狀態的下一頁按鈕 */
+        .next-btn.disabled {
+            background-color: #e0e0e0;
+            color: #9e9e9e;
+            pointer-events: none; /* 禁止點擊 */
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .image-container img {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>學習頁面：維管束的功能與分布</h1>
+
+    <section class="content-box">
+        <h2>維管束的功能</h2>
+        <p>在植物體內有負責運輸水分及養分的細胞，排列成束，稱為<span class="keyword-blue">維管束</span>。</p>
+        <p>維管束內主要負責運輸水分和礦物質的構造稱為<span class="keyword-blue">木質部</span>，其細胞壁比較厚，也具有<span class="keyword-red">支持</span>的功能；而光合作用所製造的養分則由<span class="keyword-blue">韌皮部</span>負責運輸。</p>
+    </section>
+
+    <section class="content-box">
+        <h2>維管束的分布</h2>
+        <p>維管束的組織細胞形狀細長，上下相接形成管狀構造，由根、莖延伸到葉、花和果實。</p>
+        <p>植物的葉脈即是葉內的維管束，葉脈中的木質部在<span class="keyword-red">上側</span>，靠近上表皮；韌皮部在<span class="keyword-red">下側</span>，靠近下表皮。</p>
+        <p>而植物莖內的維管束中，通常木質部分布在<span class="keyword-blue">內側</span>，韌皮部則分布在<span class="keyword-blue">外側</span>。</p>
+        
+        <div class="image-container">
+            <img src="11.png" alt="維管束分布示意圖1">
+            <img src="111.png" alt="維管束分布示意圖2">
+        </div>
+    </section>
+
+    <div class="quiz-section">
+        <h3>✦ 隨堂小試身手</h3>
+
+        <div class="quiz-card" id="q1">
+            <div class="quiz-question">1. 下列關於「木質部」的敘述，何者正確？</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="A"> A. 主要負責運輸養分</label>
+                <label><input type="radio" name="q1" value="B"> B. 細胞壁較薄，不具支持功能</label>
+                <label><input type="radio" name="q1" value="C"> C. 負責運輸水分與礦物質，且具支持功能</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ1()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q1')">重做本題</button>
+            <div class="feedback" id="fb-q1"></div>
+        </div>
+
+        <div class="quiz-card" id="q2">
+            <div class="quiz-question">2. 光合作用製造的養分，是由哪個構造負責運輸？</div>
+            <div class="options">
+                <select id="q2-select" onchange="enableCheck('q2')">
+                    <option value="" disabled selected>請選擇...</option>
+                    <option value="xylem">木質部</option>
+                    <option value="phloem">韌皮部</option>
+                    <option value="root">根毛</option>
+                </select>
+            </div>
+            <button class="btn btn-check" id="btn-q2" onclick="checkQ2()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q2')">重做本題</button>
+            <div class="feedback" id="fb-q2"></div>
+        </div>
+
+        <div class="quiz-card" id="q3">
+            <div class="quiz-question">3. 在植物的葉脈中，負責運輸水分的構造位於「下側」，靠近下表皮。</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="T"> 正確</label>
+                <label><input type="radio" name="q3" value="F"> 錯誤</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ3()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q3')">重做本題</button>
+            <div class="feedback" id="fb-q3"></div>
+        </div>
+
+        <div class="quiz-card" id="q4">
+            <div class="quiz-question">4. 在一般植物的莖內，維管束的排列方式，外側是 ______，內側是 ______。</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="A"> A. 外側：韌皮部 / 內側：木質部</label>
+                <label><input type="radio" name="q4" value="B"> B. 外側：木質部 / 內側：韌皮部</label>
+            </div>
+            <button class="btn btn-check" onclick="checkQ4()" disabled>檢查答案</button>
+            <button class="btn btn-retry" onclick="retry('q4')">重做本題</button>
+            <div class="feedback" id="fb-q4"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-nav">
+    <a href="index.html" class="nav-btn prev-btn">← 上一頁</a>
+    <a href="2.html" class="nav-btn next-btn disabled" id="nextLink">下一頁 →</a>
+</div>
+
+<script>
+    // 狀態追蹤：紀錄 4 題是否都正確完成
+    const progress = {
+        q1: false,
+        q2: false,
+        q3: false,
+        q4: false
+    };
+
+    // 監聽所有 Radio 輸入，若有選擇則啟用檢查按鈕
+    document.querySelectorAll('input[type=radio]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const qId = e.target.name; 
+            // 找到該題的檢查按鈕
+            const container = document.getElementById(qId);
+            const checkBtn = container.querySelector('.btn-check');
+            checkBtn.disabled = false;
+        });
+    });
+
+    // 檢查下拉選單 (Q2)
+    function enableCheck(qId) {
+        const container = document.getElementById(qId);
+        const checkBtn = container.querySelector('.btn-check');
+        checkBtn.disabled = false;
+    }
+
+    // --- 檢查邏輯與 UI 更新函式 ---
+    function handleResult(qId, isCorrect, correctMsg, errorMsg) {
+        const card = document.getElementById(qId);
+        const feedback = document.getElementById(`fb-${qId}`);
+        const checkBtn = card.querySelector('.btn-check');
+        const retryBtn = card.querySelector('.btn-retry');
+        const inputs = card.querySelectorAll('input, select');
+
+        if (isCorrect) {
+            // 正確處理
+            card.classList.add('correct');
+            card.classList.remove('incorrect');
+            feedback.innerHTML = `✅ 正確！${correctMsg}`;
+            checkBtn.style.display = 'inline-block';
+            checkBtn.disabled = true; // 鎖定
+            retryBtn.style.display = 'none';
+            
+            // 鎖定輸入
+            inputs.forEach(input => input.disabled = true);
+            
+            // 更新進度
+            progress[qId] = true;
+            checkAllComplete();
+        } else {
+            // 錯誤處理
+            card.classList.add('incorrect');
+            card.classList.remove('correct');
+            feedback.innerHTML = `❌ 錯誤。${errorMsg}`;
+            checkBtn.style.display = 'none';
+            retryBtn.style.display = 'inline-block';
+            
+            // 鎖定輸入 (直到重試)
+            inputs.forEach(input => input.disabled = true);
+            
+            progress[qId] = false;
+        }
+    }
+
+    // 重置題目
+    function retry(qId) {
+        const card = document.getElementById(qId);
+        const feedback = document.getElementById(`fb-${qId}`);
+        const checkBtn = card.querySelector('.btn-check');
+        const retryBtn = card.querySelector('.btn-retry');
+        const inputs = card.querySelectorAll('input, select');
+
+        // UI 復原
+        card.classList.remove('correct', 'incorrect');
+        feedback.style.display = 'none';
+        feedback.innerHTML = '';
+        checkBtn.style.display = 'inline-block';
+        checkBtn.disabled = true; // 需重新選擇
+        retryBtn.style.display = 'none';
+
+        // 解鎖輸入並清空選擇
+        inputs.forEach(input => {
+            input.disabled = false;
+            if(input.type === 'radio') input.checked = false;
+            if(input.tagName === 'SELECT') input.selectedIndex = 0;
+        });
+    }
+
+    // --- 各題邏輯 ---
+
+    function checkQ1() {
+        const selected = document.querySelector('input[name="q1"]:checked');
+        if(!selected) return;
+        const isCorrect = (selected.value === 'C');
+        handleResult('q1', isCorrect, '木質部具有細胞壁較厚、運輸水分與支持的特性。', '提示：木質部細胞壁較厚，負責運輸水分。');
+    }
+
+    function checkQ2() {
+        const selected = document.getElementById('q2-select').value;
+        const isCorrect = (selected === 'phloem');
+        handleResult('q2', isCorrect, '養分由韌皮部負責運輸。', '提示：請回想「光合作用產生的養分」是誰負責的？');
+    }
+
+    function checkQ3() {
+        const selected = document.querySelector('input[name="q3"]:checked');
+        if(!selected) return;
+        // 題目說水分(木質部)在下側，這是錯的。木質部在上側。所以答案是 False
+        const isCorrect = (selected.value === 'F');
+        handleResult('q3', isCorrect, '沒錯，葉脈中的木質部(運水)位於「上側」。', '提示：葉脈中，靠近上表皮的是木質部(上側)。');
+    }
+
+    function checkQ4() {
+        const selected = document.querySelector('input[name="q4"]:checked');
+        if(!selected) return;
+        // 莖：內木外韌
+        const isCorrect = (selected.value === 'A');
+        handleResult('q4', isCorrect, '正確！莖內維管束口訣：內木外韌。', '提示：莖內的木質部通常位於內側，韌皮部在外側。');
+    }
+
+    // --- 檢查全域進度 ---
+    function checkAllComplete() {
+        // 檢查是否所有題目狀態都為 true
+        const allDone = Object.values(progress).every(status => status === true);
+        
+        if (allDone) {
+            const nextLink = document.getElementById('nextLink');
+            nextLink.classList.remove('disabled');
+            // 可以加入一點視覺提示
+            nextLink.style.boxShadow = "0 0 15px #4caf50";
+        }
+    }
+</script>
+
+</body>
+</html>
